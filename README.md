@@ -21,8 +21,7 @@ Proyecto de **Arquitectura Web**. El objetivo es diseñar e implementar una apli
       - Crear/consultar/reprogramar/cancelar turnos con política de no-show.
       - Recordatorios por email, Whatsapp/SMS.
   - **Pagos**:
-      - Integración con pasarela (por ejemplo: MercadoPago).
-      - Soporte de promociones y paquetes ("n cortes al mes").
+      - MercadoPago, Transferencia, Efectivo.
   - **Panel administrativo**:
       - Gestión de servicios, horarios, precios y promociones.
       - Vista de calendario (día/semana) por barbero.
