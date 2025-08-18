@@ -15,7 +15,7 @@ Proyecto de **Arquitectura Web**. El objetivo es diseñar e implementar una apli
   - **Perfiles**:
       - Cliente: nombre, foto, teléfono, preferencias, notas.
       - Barbero: bio, skills, horarios, portfolio, experiencia.
-  - **Catálogo de servicios**: nombre, duración, precio, tiempo, imagenes de ejemplos.
+  - **Catálogo de servicios**: nombre, duración, precio, tiempo, imagenes de ejemplo.
   - **Agenda y reservas**:
       - Disponibilidad por barbero; slots calculados por servicio+duración.
       - Crear/consultar/reprogramar/cancelar turnos con política de no-show.
