@@ -1,0 +1,26 @@
+[
+    {
+        "id": "barber_1",
+        "email": "barber@shop.com",
+        "password": "securepassword",
+        "role": "barber",
+        "name": "Peder",
+        "phone": "280-4123456"
+    },
+    {
+        "id": "cli_1",
+        "email": "facu@gmail.com",
+        "password": "facu123",
+        "role": "client",
+        "name": "Facundo",
+        "phone": "280-4667655"
+    },
+    {
+        "id": "cli_2",
+        "email": "manu@gmail.com",
+        "password": "manu123",
+        "role": "client",
+        "name": "Manuel",
+        "phone": "280-4123323"
+    }
+]
