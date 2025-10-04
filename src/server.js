@@ -1,6 +1,7 @@
 const express = require('express');
-
 const store = require('./data/store');
+const {login, auth, rbac} = require('./utils/auth');
+
 
 // express server
 const app = express();
@@ -9,29 +10,77 @@ const app = express();
 // MIDDLEWARES
 
 // requestID
-const requestId = (req, res, next) => {
+app.use((req, res, next) => {
     req.traceId = Math.random().toString(16).slice(2, 8);
     res.set('X-Request-Id', req.traceId);
     next();
-};
+});
 
 // logger
-const logger = (req, res, next) => {
+app.use((req, res, next) => {
     const time = Date.now();
     console.log(req.traceId, req.method, req.originalUrl);
     res.on('finish', () => console.log(req.traceId, res.statusCode, Date.now() - time, 'ms'));
     next();
-};
+});
 
-app.use(requestId);
-app.use(logger);
+// body parser
 app.use(express.json());
 
 
 
 // ROUTES
 
-// Services
+// Login
+app.post('/api/v1/auth/login', async (req, res, next) => {
+    
+    try {
+        const { email, password } = req.body || {};
+        if (!email || !password) {
+            return next(makeError(400, 'Solicitud incorrecta', 'Falta email o contraseña'));
+        }
+        const out = await login(email, password);
+        res.status(200).json(out);
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+
+// Admin: CRUD Services
+app.get('/api/v1/admin/services', auth, rbac('admin'), async (req, res, next) => {
+
+    try {
+        const services = await store.loadServices();
+        res.status(200).json(services);
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.post('/api/v1/admin/services', auth, rbac('admin'), async (req, res, next) => {
+
+    try {
+        const newService = await store.addService(req.body);
+        res.status(201).json(newService);
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.patch('/api/v1/admin/services/:id', auth, rbac('admin'), async (req, res, next) => {
+
+    try {
+        const updatedService = await store.updateService(req.params.id, req.body);
+        res.status(200).json(updatedService);
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+// Public Services
 app.get('/api/v1/services', async (req, res, next) => {
 
     try{
@@ -55,25 +104,7 @@ app.get('/api/v1/services/:id', async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-});
-
-app.get('/api/v1/admin/services', async (req, res, next) => {
-    try {
-        const services = await store.loadServices();
-        res.status(200).json(services);
-    } catch (err) {
-        next(err);
-    }
-});
-
-app.patch('/api/v1/admin/services/:id', async (req, res, next) => {
-    try {
-        const updatedService = await store.updateService(req.params.id, req.body);
-        res.status(200).json(updatedService);
-    } catch (err) {
-        next(err);
-    }
-});
+});-
 
 
 // Appointments

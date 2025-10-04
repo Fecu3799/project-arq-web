@@ -3,17 +3,12 @@
 const fs = require('node:fs/promises');
 const path = require('path');
 const validate = require('../utils/validations');
+const { makeError } = require('../utils/errors');
+const { get } = require('node:http');
 
 const DATA_DIR = __dirname;
-
 const filePath = (name) => path.join(DATA_DIR, name);
-const makeError = (status, title, detail) => {
-    const err = new Error(detail);
-    err.status = status;
-    err.title = title;
 
-    return err;
-};
 
 // MODULOS PRIVADOS. Lectura y Escritura de archivos JSON
 
@@ -39,10 +34,16 @@ async function writeJSON(name, data) {
     }
 }
 
-// MODULOS PUBLICOS
+async function getMaxId() {
+    const services = await loadServices();
+    return services.reduce((max, s) => s.id > max ? s.id : max, 0);
+}
 
+
+// MODULOS PÚBLICOS
 
 // Cargar servicios
+
 async function loadServices() {
     return readJSON('services.json');
 }
@@ -95,8 +96,25 @@ async function updateService(id, patch = {}) {
 }
 
 // Agregar un servicio
-async function addService() {
+async function addService(newServiceData = {}) {
+    if(newServiceData == null || typeof newServiceData !== 'object') {
+        throw makeError(400, 'Solicitud incorrecta', 'Falta el objeto servicio');
+    }
 
+    const services = await loadServices();
+    const newId = await getMaxId() + 1;
+
+    const newService = {
+        id: newId,
+        name: validate.toStringTrim(newServiceData.name),
+        duration_min: Number(newServiceData.duration_min),
+        price: Number(newServiceData.price),
+        active: newServiceData.active === undefined ? true : Boolean(newServiceData.active),
+    };
+
+    services.push(newService);
+    await writeJSON('services.json', services);
+    return newService;
 }
 
 // Cargar usuarios

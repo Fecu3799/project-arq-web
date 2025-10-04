@@ -19,5 +19,19 @@
     "duration_min": 90,
     "price": 18000,
     "active": true
+  },
+  {
+    "id": 4,
+    "name": "Lavado de pelo",
+    "duration_min": 30,
+    "price": 10000,
+    "active": false
+  },
+  {
+    "id": 5,
+    "name": "Lavado de barba",
+    "duration_min": 15,
+    "price": 7500,
+    "active": false
   }
 ]
