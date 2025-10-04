@@ -1,5 +1,13 @@
 [
     {
+        "id": "admin_1",
+        "email": "admin@shop.com",
+        "password": "secretpassword",
+        "role": "admin",
+        "name": "Admin",
+        "phone": "0000000000"
+    },
+    {
         "id": "barber_1",
         "email": "barber@shop.com",
         "password": "securepassword",

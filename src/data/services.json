@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Corte de pelo",
+    "duration_min": 60,
+    "price": 15000,
+    "active": true
+  },
+  {
+    "id": 2,
+    "name": "Corte de barba",
+    "duration_min": 30,
+    "price": 10000,
+    "active": true
+  },
+  {
+    "id": 3,
+    "name": "Corte de pelo + barba",
+    "duration_min": 90,
+    "price": 18000,
+    "active": true
+  }
+]
