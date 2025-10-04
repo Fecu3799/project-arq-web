@@ -2,7 +2,7 @@ project-arq-web
 
 # Sistema de Turnos para Barbería
 
-Proyecto de **Arquitectura Web**. El objetivo es construir un **sistema de turnos** para barbería con **foco en la API**: la interfaz será mínima; la prioridad es cómo modelamos recursos, pedidos y respuestas.
+Proyecto de **Arquitectura Web**. El objetivo es construir un **sistema de turnos** para barbería con **foco en la API HTTP**.
 
 ## La API permitirá:
   - Registrar y autenticar usuarios (cliente/barbero).
