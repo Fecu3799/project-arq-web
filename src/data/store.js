@@ -124,7 +124,7 @@ async function loadUsers() {
 
 // Cargar agenda
 async function loadSchedule() {
-    return readJSON('shedule.json');
+    return readJSON('schedule.json');
 }
 
 // Cargar turnos

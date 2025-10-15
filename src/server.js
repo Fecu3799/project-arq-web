@@ -1,6 +1,8 @@
 const express = require('express');
 const store = require('./data/store');
 const {login, auth, rbac} = require('./utils/auth');
+const { getDayAvailability } = require('./services/availabilityService');
+const { makeError } = require('./utils/errors');
 
 
 // express server
@@ -95,16 +97,38 @@ app.get('/api/v1/services', async (req, res, next) => {
 app.get('/api/v1/services/:id', async (req, res, next) => {
 
     try {
-        const services = await store.loadServices();
-        const service = services.find(s => s.id === parseInt(req.params.id) && s.active);
-        if (!service) {
-            res.status(403).json({ message: 'Servicio no disponible' });
+        const id = Number(req.params.id);
+        if(!Number.isInteger(id) || id <= 0) {
+            return next(makeError(400, 'Solicitud incorrecta', 'El id del servicio debe ser un número entero mayor que cero'));
         }
+
+        const services = await store.loadServices();
+        const service = services.find(s => Number(s.id) === id && s.active === true);
+
+        if (!service) {
+            return next(makeError(404, 'Recurso no encontrado', `No existe el servicio con id ${req.params.id}`));
+        }
+        
         res.status(200).json(service);
     } catch (err) {
         next(err);
     }
-});-
+});
+
+
+// Disponibilidad de turnos 
+app.get('/api/v1/availability/day', async (req, res, next) => {
+
+    try {
+        const availability = await getDayAvailability({
+            date: req.query.date,
+            service_id: req.query.service_id
+        });
+        res.status(200).json(availability);
+    } catch (err) {
+        next(err);
+    }
+});
 
 
 // Appointments

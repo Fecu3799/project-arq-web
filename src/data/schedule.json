@@ -4,6 +4,6 @@
         "start_time": "09:00",
         "end_time": "20:00",
         "slot_step_min": 30,
-        "exceptions": ["25/12/2025", "01/01/2026"]
+        "exceptions": ["25-12-25", "01-01-26"]
     }
 ]
