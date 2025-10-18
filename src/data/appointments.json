@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": 1,
+    "service_id": 1,
+    "start": "12-11-25 09:00",
+    "end": "12-11-25 10:00",
+    "status": "confirmed",
+    "created_at": "17-10-25 23:48",
+    "updated_at": "17-10-25 23:48"
+  },
+  {
+    "id": 2,
+    "service_id": 1,
+    "start": "12-11-25 10:30",
+    "end": "12-11-25 11:30",
+    "status": "confirmed",
+    "created_at": "18-10-25 01:36",
+    "updated_at": "18-10-25 01:36"
+  }
+]

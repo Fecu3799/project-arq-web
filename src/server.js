@@ -3,6 +3,7 @@ const store = require('./data/store');
 const {login, auth, rbac} = require('./utils/auth');
 const { getDayAvailability } = require('./services/availabilityService');
 const { makeError } = require('./utils/errors');
+const { createAppointment } = require('./services/appointmentsService');
 
 
 // express server
@@ -131,11 +132,28 @@ app.get('/api/v1/availability/day', async (req, res, next) => {
 });
 
 
-// Appointments
-app.get('/api/v1/appointments', async (req, res) => {
+// ADMIN: Appointments
+app.get('/api/v1/admin/appointments', auth, rbac('admin'), async (req, res, next) => {
 
-    
+    try {
+        const appointments = await store.loadAppointments();
+        res.status(200).json(appointments);
+    } catch(err) {
+        next(err);
+    }
 
+});
+
+
+// CREAR TURNO
+app.post('/api/v1/appointments', async (req, res, next) => {
+
+    try {
+        const newAppointment = await createAppointment(req.body);
+        res.status(201).json(newAppointment);
+    } catch(err) {
+        next(err);
+    }
 });
 
 

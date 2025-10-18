@@ -22,7 +22,7 @@ function isException(dayMoment, exceptions) {
 
 // Solapamiento de turnos
 function overlaps(startA, endA, startB, endB) {
-    return startA.isBefore(endB) && endA.isAfter(startB);
+    return startA < endB && endA > startB;
 }
 
 
@@ -30,7 +30,7 @@ async function getDayAvailability( { date, service_id }) {
 
     // VALIDACIONES
     if(!date || !service_id) {
-        throw makeError(400, 'Solicitud incorrecta', 'date y serviceId son requeridos');
+        throw makeError(400, 'Solicitud incorrecta', 'date y service_id son requeridos');
     }
 
     // Parseo de fecha
@@ -57,6 +57,8 @@ async function getDayAvailability( { date, service_id }) {
         store.loadSchedule(),
         store.loadAppointments()
     ]);
+
+    console.log(appointments);
 
     const schedule = Array.isArray(scheduleRaw) ? (scheduleRaw[0] || {}) : (scheduleRaw || {});
 
@@ -119,13 +121,12 @@ async function getDayAvailability( { date, service_id }) {
         const taken = confirmed.some(a => overlaps(slot, slotEnd, a.start, a.end));
 
         result.push({
-            time: slot.format('DD-MM-YYYY HH:mm'),
+            time: slot.format('DD-MM-YY HH:mm'),
             status: taken ? 'OCUPADO' : 'DISPONIBLE'
         });
     }
 
     return result;
-
 }
 
 module.exports = { getDayAvailability };
