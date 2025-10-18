@@ -26,12 +26,5 @@
     "duration_min": 15,
     "price": 10000,
     "active": false
-  },
-  {
-    "id": 5,
-    "name": "Lavado de barba",
-    "duration_min": 5,
-    "price": 7500,
-    "active": false
   }
 ]
