@@ -3,7 +3,7 @@ const store = require('./data/store');
 const {login, auth, rbac} = require('./utils/auth');
 const { getDayAvailability } = require('./services/availabilityService');
 const { makeError } = require('./utils/errors');
-const { createAppointment } = require('./services/appointmentsService');
+const { createAppointment, updateAppointment } = require('./services/appointmentsService');
 
 
 // express server
@@ -36,7 +36,6 @@ app.use(express.json());
 
 // Login
 app.post('/api/v1/auth/login', async (req, res, next) => {
-    
     try {
         const { email, password } = req.body || {};
         if (!email || !password) {
@@ -53,7 +52,6 @@ app.post('/api/v1/auth/login', async (req, res, next) => {
 
 // Admin: CRUD Services
 app.get('/api/v1/admin/services', auth, rbac('admin'), async (req, res, next) => {
-
     try {
         const services = await store.loadServices();
         res.status(200).json(services);
@@ -63,7 +61,6 @@ app.get('/api/v1/admin/services', auth, rbac('admin'), async (req, res, next) =>
 });
 
 app.post('/api/v1/admin/services', auth, rbac('admin'), async (req, res, next) => {
-
     try {
         const newService = await store.addService(req.body);
         res.status(201).json(newService);
@@ -73,7 +70,6 @@ app.post('/api/v1/admin/services', auth, rbac('admin'), async (req, res, next) =
 });
 
 app.patch('/api/v1/admin/services/:id', auth, rbac('admin'), async (req, res, next) => {
-
     try {
         const updatedService = await store.updateService(req.params.id, req.body);
         res.status(200).json(updatedService);
@@ -85,7 +81,6 @@ app.patch('/api/v1/admin/services/:id', auth, rbac('admin'), async (req, res, ne
 
 // Public Services
 app.get('/api/v1/services', async (req, res, next) => {
-
     try{
         const services = await store.loadServices();
         const activeServices = services.filter(s => s.active);
@@ -96,7 +91,6 @@ app.get('/api/v1/services', async (req, res, next) => {
 });
 
 app.get('/api/v1/services/:id', async (req, res, next) => {
-
     try {
         const id = Number(req.params.id);
         if(!Number.isInteger(id) || id <= 0) {
@@ -119,7 +113,6 @@ app.get('/api/v1/services/:id', async (req, res, next) => {
 
 // Disponibilidad de turnos 
 app.get('/api/v1/availability/day', async (req, res, next) => {
-
     try {
         const availability = await getDayAvailability({
             date: req.query.date,
@@ -134,7 +127,6 @@ app.get('/api/v1/availability/day', async (req, res, next) => {
 
 // ADMIN: Appointments
 app.get('/api/v1/admin/appointments', auth, rbac('admin'), async (req, res, next) => {
-
     try {
         const appointments = await store.loadAppointments();
         res.status(200).json(appointments);
@@ -147,7 +139,6 @@ app.get('/api/v1/admin/appointments', auth, rbac('admin'), async (req, res, next
 
 // CREAR TURNO
 app.post('/api/v1/appointments', async (req, res, next) => {
-
     try {
         const newAppointment = await createAppointment(req.body);
         res.status(201).json(newAppointment);
@@ -155,6 +146,18 @@ app.post('/api/v1/appointments', async (req, res, next) => {
         next(err);
     }
 });
+
+
+// ATUALIZAR TURNO (reporgramar, cancelar)
+app.patch('/api/v1/appointments/:id', async (req, res, next) => {
+    try {
+        const updatedAppointment = await updateAppointment(req.params.id, req.body);
+        res.status(200).json(updatedAppointment);
+    } catch(err) {
+        next(err);
+    }
+});
+
 
 
 
@@ -186,7 +189,5 @@ app.use((err, req, res, next) => {
 
 // START SERVER
 app.listen(process.env.PORT || 3000, function () {
-
     console.log('API y express.js...');
-
 });

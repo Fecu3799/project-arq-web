@@ -58,6 +58,16 @@ Proyecto de **Arquitectura Web**. El objetivo es construir un **sistema de turno
   - curl -X POST "http://localhost:3000/api/v1/appointments" \
     -Header "Content-Type: application/json" \
     -req.body '{ "service_id": 1, "date": "01-01-30", "time": "09:00" }'
+### Actualizar turnos (cancelar / reprogramar):
+  - Cancelar:
+    - curl -X PATCH "http://localhost:3000/api/v1/appointments/1" \
+      -Header "Content-Type: application/json" \
+      -req.body '{ "status": "cancelled" }'
+  - Reprogramar:
+    - curl -X PATCH "http://localhost:3000/api/v1/appointments/1" \
+      -Header "Content-Type: application/json" \
+      -req.body '{ "date": "02-01-30", "time": "11:00", "service_id": 1 }'
+  - `status` admite `cancelled` o `no_show`. Para reprogramar, `date` y `time` son obligatorios (DD-MM-YY / HH:mm) y `service_id` es opcional (por defecto usa el turno actual).
 
 
 ## ADMIN/BARBER
