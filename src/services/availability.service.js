@@ -1,29 +1,7 @@
 const moment = require('moment');
 const store = require('../data/store');
 const { makeError } = require('../utils/errors');
-
-const SLOT_STEP_MIN = 30; // 30 minutos de paso
-const WEEKDAYS = ['DOM','LUN', 'MAR', 'MIE', 'JUE', 'VIE', 'SAB'];
-
-// Verificar dia laborable
-function isWorkday(dayMoment, workdays) {
-     const normalized = Array.isArray(workdays)
-        ? workdays.map(w => String(w).toUpperCase().slice(0,3))
-        : [];
-    const code = WEEKDAYS[dayMoment.day()];
-    return normalized.includes(code);
-}
-
-// Verificar dia excepción
-function isException(dayMoment, exceptions) {
-    const list = Array.isArray(exceptions) ? exceptions : [];
-    return list.includes(dayMoment.format('DD-MM-YY'));
-}
-
-// Solapamiento de turnos
-function overlaps(startA, endA, startB, endB) {
-    return startA < endB && endA > startB;
-}
+const { isWorkday, isException, overlaps } = require('../utils/validations');
 
 
 async function getDayAvailability( { date, service_id }) {
@@ -116,7 +94,7 @@ async function getDayAvailability( { date, service_id }) {
     if(!latestStart.isSameOrAfter(dayStart)) return []; // No hay slots posibles
 
     const result = [];
-    for (let slot = dayStart.clone(); !slot.isAfter(latestStart); slot.add(SLOT_STEP_MIN, 'minute')) {
+    for (let slot = dayStart.clone(); !slot.isAfter(latestStart); slot.add(30, 'minute')) {
         const slotEnd = slot.clone().add(durationMin, 'minute');
         const taken = confirmed.some(a => overlaps(slot, slotEnd, a.start, a.end));
 

@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest --runInBand",
+    "test": "npm run test:unit && npm run test:int",
+    "test:unit": "jest --runInBand --testPathIgnorePatterns tests/integration",
+    "test:int": "jest --runInBand tests/integration",
     "test:watch": "jest --watch"
   },
   "jest": {
@@ -22,7 +24,8 @@
   },
   "devDependencies": {
     "jest": "^30.2.0",
-    "nodemon": "^3.0.0"
+    "nodemon": "^3.0.0",
+    "supertest": "^7.1.1"
   },
   "engines": {
     "node": ">=18 <21"

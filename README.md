@@ -42,7 +42,9 @@ Proyecto de **Arquitectura Web**. El objetivo es construir un **sistema de turno
   - npm run dev
 
 ## Correr tests:
-  - npm test
+  - npm test (unitarios e integrales)
+  - npm run test:unit (unitarios)
+  - npm run test:int (integrales)
 
 # PROBAR LA API
 
