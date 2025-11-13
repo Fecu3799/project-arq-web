@@ -6,7 +6,7 @@ jest.mock('../src/data/store', () => ({
 }));
 
 const store = require('../src/data/store');
-const { getDayAvailability } = require('../src/services/availabilityService');
+const { getDayAvailability } = require('../src/services/availability.service');
 
 
 describe('Availability Service - GET /api/v1/availability', () => {
@@ -32,12 +32,12 @@ describe('Availability Service - GET /api/v1/availability', () => {
 
         // Seteamos un turno reservado de 09:30 a 10:00
         store.loadAppointments.mockResolvedValue([
-            { status: 'confirmed', start: '12-11-25 09:30', end: '12-11-25 10:00' }
+            { status: 'confirmed', start: '12-11-26 09:30', end: '12-11-26 10:00' }
         ]);
 
         // Ejecutamos la funcion
         const out = await getDayAvailability({
-            date: '12-11-25',
+            date: '12-11-26',
             service_id: 1
         });
 
@@ -45,8 +45,8 @@ describe('Availability Service - GET /api/v1/availability', () => {
 
         // Esperable
         expect(out).toEqual([
-            { time: '12-11-25 09:00', status: 'DISPONIBLE' },
-            { time: '12-11-25 09:30', status: 'OCUPADO' }
+            { time: '12-11-26 09:00', status: 'DISPONIBLE' },
+            { time: '12-11-26 09:30', status: 'OCUPADO' }
         ]);
     });
 
@@ -64,9 +64,9 @@ describe('Availability Service - GET /api/v1/availability', () => {
 
         store.loadAppointments.mockResolvedValue([]);
 
-        // 15-11-25 (sabado)
+        // 15-11-26 (sabado)
         const out = await getDayAvailability( {
-            date: '15-11-25',
+            date: '15-11-26',
             service_id: 1
         });
 
@@ -115,7 +115,7 @@ describe('Availability Service - GET /api/v1/availability', () => {
         store.loadAppointments.mockResolvedValue([]);
 
         const out = await getDayAvailability({
-            date: '12-11-25',
+            date: '12-11-26',
             service_id: 3
         });
 

@@ -25,6 +25,6 @@
     "name": "Lavado de pelo",
     "duration_min": 15,
     "price": 10000,
-    "active": false
+    "active": true
   }
 ]

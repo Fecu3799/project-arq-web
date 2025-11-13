@@ -1,7 +1,7 @@
 const moment = require('moment');
 const store = require('../data/store');
 const { makeError } = require('../utils/errors');
-const { getDayAvailability } = require('./availabilityService');
+const { getDayAvailability } = require('./availability.service');
 
 const DATE_FORMAT = 'DD-MM-YY';
 const TIME_FORMAT = 'HH:mm';
@@ -83,7 +83,7 @@ async function updateAppointment(id, patch = {}) {
     }
 
     if (wantsStatusChange && wantsReschedule) {
-        throw makeError(400, 'Solicitud incorrecta', 'No se puede reprogramar y cambiar el estado en la misma solicitud');
+        throw makeError(400, 'Solicitud incorrecta', 'No se puede reprogramar y cancelar en la misma solicitud');
     }
 
     const appointments = await store.loadAppointments();
@@ -188,7 +188,15 @@ async function updateAppointment(id, patch = {}) {
     return updated;
 }
 
+
+async function getAppointments() {
+    const appointments = await store.loadAppointments();
+    return appointments;
+}
+
+
 module.exports = {
     createAppointment,
-    updateAppointment
+    updateAppointment,
+    getAppointments
 };

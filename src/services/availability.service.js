@@ -58,7 +58,7 @@ async function getDayAvailability( { date, service_id }) {
         store.loadAppointments()
     ]);
 
-    console.log(appointments);
+    //console.log(appointments);
 
     const schedule = Array.isArray(scheduleRaw) ? (scheduleRaw[0] || {}) : (scheduleRaw || {});
 

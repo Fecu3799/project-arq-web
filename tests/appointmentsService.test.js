@@ -1,5 +1,5 @@
 const moment = require('moment');
-const { getDayAvailability } = require('../src/services/availabilityService');
+const { getDayAvailability } = require('../src/services/availability.service');
 
 jest.mock('../src/data/store', () => ({
     loadServices: jest.fn(),
@@ -7,13 +7,13 @@ jest.mock('../src/data/store', () => ({
     saveAppointments: jest.fn()
 }));
 
-jest.mock('../src/services/availabilityService', () => ({
+jest.mock('../src/services/availability.service', () => ({
     getDayAvailability: jest.fn()
 }));
 
 const store = require('../src/data/store');
-const availability = require('../src/services/availabilityService');
-const { createAppointment, updateAppointment } = require('../src/services/appointmentsService');
+const availability = require('../src/services/availability.service');
+const { createAppointment, updateAppointment } = require('../src/services/appointments.service');
 
 beforeEach(() => {
     jest.clearAllMocks();
