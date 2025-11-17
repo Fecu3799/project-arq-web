@@ -16,6 +16,7 @@ function createApp() {
     app.use(requestLogger);
     app.use(express.json());
 
+
     // PUBLIC ROUTES
     app.get('/api/v1/services', async (req, res, next) => {
         try {
@@ -79,7 +80,9 @@ function createApp() {
         }
     });
 
-    // ADMIN
+
+
+    // ADMIN ROUTES
     app.get('/api/v1/admin/services', auth, rbac('admin'), async (req, res, next) => {
         try {
             const services = await servicesService.getAllServices();

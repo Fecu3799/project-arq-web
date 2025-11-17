@@ -5,16 +5,17 @@ project-arq-web
 Proyecto de **Arquitectura Web**. El objetivo es construir un **sistema de turnos** para barbería con **foco en la API HTTP**.
 
 ## La API permitirá:
-  - Registrar y autenticar usuarios (cliente/barbero).
-  - Publicar el catálogo de servicios (duración, precio, disponibilidad).
-  - Crear, consultar, reprogramar y cancelar turnos.
+  - Publicar el catálogo de servicios (duración, precio).
+  - Consultar disponibilidad x día.
+  - Crear, reprogramar y cancelar turnos.
+  - Gestionar servicios (admin).
 
 ## Alcance (MVP)
-  - **Auth básica** (registro/login y roles).
-  - **Servicios** (lectura pública).
+  - **Auth básica** (admin).
+  - **Servicios** (publico).
   - **Disponibilidad** calculada a partir de horarios + duración.
   - **Turnos** con estados básicos (pendiente/confirmado/cancelado/no-show).
-  - **Notificaciones** como stub (registro en log/cola; sin proveedor real).
+  - **Notificaciones (opcional)** como stub (registro en log/cola; sin proveedor real).
   - **Pagos (opcional)**: flujo simulado para validar integraciones.
 
 ## Criterios de calidad de la API
@@ -74,7 +75,7 @@ Proyecto de **Arquitectura Web**. El objetivo es construir un **sistema de turno
 
 ## ADMIN/BARBER
 
-### Autenticación para ADMIN-requests
+### Autenticación
   - curl -X POST "http://localhost:3000/api/v1/auth/login" \
     - Header "Content-Type: application/json" \
     -req.body '{ "email": "admin@shop.com", "password": "secretpassword" }'
